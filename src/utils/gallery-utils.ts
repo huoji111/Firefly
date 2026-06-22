@@ -50,6 +50,13 @@ export function scanAlbumPhotos(albumId: string): string[] {
 	return [...localPhotos, ...remotePhotos];
 }
 
+export function getAlbumPhotos(album: GalleryAlbum): string[] {
+	if (album.photos && album.photos.length > 0) {
+		return album.photos.map((photo) => withBase(photo));
+	}
+	return scanAlbumPhotos(album.id);
+}
+
 /**
  * 获取相册封面图
  * 优先级：手动指定 > cover.* 文件 > 第一张图片
