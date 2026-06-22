@@ -131,7 +131,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 是否启用该组件
 			enable: true,
 			// 是否显示组件标题
-			showTitle: false,
+			showTitle: true,
 			// 组件位置
 			position: "sticky",
 			// 是否在文章详情页显示
@@ -177,7 +177,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 						external: true,
 					},
 					// 是否允许关闭广告
-					closable: false,
+					closable: true,
 					// 显示次数限制，-1为无限制
 					displayCount: -1,
 					// 组件内边距配置
