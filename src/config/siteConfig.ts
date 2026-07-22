@@ -65,7 +65,7 @@ export const siteConfig: SiteConfig = {
 		logo: {
 			type: "image",
 			// 使用 public 目录下的图片（以 '/' 开头），便于直接替换为新上传的图片
-			value: "/assets/images/site-logo.png",
+			value: "/assets/images/1000005270.png",
 			alt: "Huoji Blog",
 		},
 		// 导航栏标题
