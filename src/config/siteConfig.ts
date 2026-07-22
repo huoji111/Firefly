@@ -1,7 +1,7 @@
 import type { SiteConfig } from "@/types/siteConfig";
 
 // 定义站点语言
-// 语言代码，例如：'zh_CN', 'zh_TW', 'en', 'ja', 'ru'。
+// 语言代码，例如：'zh_CN', 'zh_TW', 'en', 'ja', 'ru', 'ko'。
 const SITE_LANG = "zh_CN";
 
 export const siteConfig: SiteConfig = {
@@ -38,12 +38,13 @@ export const siteConfig: SiteConfig = {
 	// 网站Card样式配置
 	card: {
 		// 是否开启卡片边框和阴影，开启后让网站更有立体感
-		border: true,
+		border: false,
 		// 是否让卡片风格跟随主题色相
 		followTheme: true,
 	},
 
 	// Favicon 配置
+	// 如果启用了OpenGraph图片功能，数组中需要包含png格式的favicon图标
 	favicon: [
 		{
 			// 站点标签页图标
@@ -98,6 +99,10 @@ export const siteConfig: SiteConfig = {
 		bangumi: true,
 		// 相册页面开关
 		gallery: true,
+		// 追番页面开关
+		anime: true,
+		// 动态页面开关
+		dynamic: true,
 	},
 
 	// 分类导航栏开关，在首页和归档页顶部显示分类快捷导航
@@ -111,13 +116,42 @@ export const siteConfig: SiteConfig = {
 		// 默认布局模式："list" 列表模式（单列布局），"grid" 网格模式（多列布局）
 		defaultMode: "list",
 		// 移动端默认布局模式，不设置则跟随 defaultMode
-		mobileDefaultMode: "list",
-		// 是否在文章列表中显示标签
-		showTags: true,
-		// 文章简介显示行数，设为 0 则不截断
-		descriptionLines: 2,
+		mobileDefaultMode: "grid",
 		// 是否允许用户切换布局
 		allowSwitch: true,
+		// 文章简介显示行数，设为 0 则不截断
+		descriptionLines: 2,
+		// 文章卡片底部统计和发布日期是否显示图标
+		showStatsIcons: true,
+		// 标签显示位置
+		// 设置为"meta"：显示在文章标题下的元数据
+		// 设置为"bottom"：顶替stats在底部显示
+		tagsPosition: "bottom",
+		// PostMeta 元数据显示控制
+		meta: {
+			// 是否显示发布日期
+			showPublished: true,
+			// 是否显示分类
+			showCategory: true,
+			// 是否显示标签
+			showTags: true,
+			// 标签数量，设为 0 则不限制
+			tagCount: 5,
+			// 是否显示字数
+			showWords: false,
+			// 是否显示阅读时间
+			showReadingTime: false,
+		},
+		// 底部 PostStats 统计信息显示控制
+		// 如果tagsPosition设置为"bottom"，则stats将不显示
+		stats: {
+			// 是否显示发布日期
+			showPublished: true,
+			// 是否显示字数
+			showWords: true,
+			// 是否显示阅读时间
+			showReadingTime: true,
+		},
 		// 网格布局配置，仅在 defaultMode 为 "grid" 或允许切换布局时生效
 		grid: {
 			// 是否开启瀑布流布局，同时有封面图和无封面图的混合文章推荐开启
@@ -147,7 +181,23 @@ export const siteConfig: SiteConfig = {
 		generateOgImages: false,
 	},
 
-
+	// bangumi配置
+	bangumi: {
+		// Bangumi用户ID
+		userId: "1143164",
+		// 数据模式：static=构建时获取，dynamic=客户端实时获取
+		// static 模式在构建时获取数据并静态渲染，部署后数据不更新
+		// dynamic 模式在浏览器中实时请求 API，始终显示最新数据
+		mode: "dynamic",
+		// Bangumi API 地址
+		apiUrl: "https://api.bangumi.one",
+		// 详情页地址
+		subjectBaseUrl: "https://bangumi.one/subject/",
+		// 条目类型排序，数组中的类型将按顺序优先展示
+		// 可选值: "anime" | "book" | "music" | "game" | "real" (暂不支持"real"类型)
+		// 未列出的类型将按默认顺序排在后面
+		categoryOrder: ["anime", "book", "music", "game"],
+	},
 
 	// 分页配置
 	pagination: {
@@ -171,7 +221,7 @@ export const siteConfig: SiteConfig = {
 		// 为特定域名的图片添加 referrerpolicy="no-referrer" 属性
 		// 支持通配符 *，例如：["i0.hdslb.com", "*.bilibili.com"]
 		// 可解决指定域名图片加载时的 403 问题（如防盗链图片）
-		noReferrerDomains: [],
+		noReferrerDomains: ["*.hdslb.com", "*.bilibili.com"],
 	},
 
 	// 站点语言，在本配置文件顶部SITE_LANG定义

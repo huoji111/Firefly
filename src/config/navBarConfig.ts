@@ -24,11 +24,22 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		children: [],
 	});
 
-	// 友链
-	links.push(LinkPresets.Friends);
+	// 动态
+	links.push(LinkPresets.Dynamic);
 
-	// 留言板
-	links.push(LinkPresets.Guestbook);
+	//社交及其子菜单
+	links.push({
+		name: "社交",
+		url: "#",
+		icon: "material-symbols:group",
+		children: [
+			// 友链
+			LinkPresets.Friends,
+
+			// 留言
+			LinkPresets.Guestbook,
+		],
+	});
 
 	// 我的及其子菜单
 	links.push({
@@ -38,6 +49,9 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		children: [
 			// 相册
 			LinkPresets.Gallery,
+
+			// 追番
+			LinkPresets.Anime,
 
 		],
 	});
@@ -88,6 +102,12 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		url: "/",
 		icon: "material-symbols:home",
 	},
+	Dynamic: {
+		name: "动态",
+		url: "/dynamic/",
+		icon: "material-symbols:forum-rounded",
+		pageKey: "dynamic",
+	},
 	Archive: {
 		name: "归档",
 		url: "/archive/",
@@ -106,7 +126,7 @@ export const LinkPresets: Record<string, NavBarLink> = {
 	Friends: {
 		name: "友链",
 		url: "/friends/",
-		icon: "material-symbols:group",
+		icon: "material-symbols:link-2-rounded",
 		pageKey: "friends",
 	},
 	Sponsor: {
@@ -131,6 +151,12 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		url: "/gallery/",
 		icon: "material-symbols:photo-library",
 		pageKey: "gallery",
+	},
+	Anime: {
+		name: "追番",
+		url: "/anime/",
+		icon: "material-symbols:live-tv",
+		pageKey: "anime",
 	},
 };
 
