@@ -48,7 +48,7 @@ export const siteConfig: SiteConfig = {
 	favicon: [
 		{
 			// 站点标签页图标
-			src: "/assets/images/site-logo.png",
+			src: "/assets/images/1000005270.png",
 			// 可选，图标大小
 			sizes: "32x32",
 		},

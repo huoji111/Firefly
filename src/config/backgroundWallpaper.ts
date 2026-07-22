@@ -42,15 +42,21 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	src: {
 		// 桌面背景图片（支持单张或多张随机）
 		// desktop: "assets/images/DesktopWallpaper/d1.avif",
-		desktop: "/assets/images/huoji-logo.png",
+		desktop: [
+			"/assets/images/1000005271.png",
+		],
 		// 移动背景图片（支持单张或多张随机）
-		mobile: "/assets/images/huoji-logo.png",
+		mobile: [
+			"/assets/images/1000005271.png",
+			"/assets/images/1000009235.png",
+			"/assets/images/1000006719.png",
+		],
 		// 背景视频播放地址
 		// 支持单个视频路径（字符串）或多个视频循环（数组）
 		// 支持远程视频URL，本地视频请放在 public/assets/videos/ 目录下
 		// playerUrl: "/assets/videos/firefly.mp4",
 		playerUrl: [
-			"/assets/videos/qingtian.mp4",
+			"/assets/videos/firefly.mp4",
 		],
 	},
 	// 横幅壁纸和全屏壁纸共享配置
@@ -128,7 +134,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// 壁纸轮播配置，横幅壁纸和全屏壁纸共享，仅在配置多张图片时生效
 		carousel: {
 			// 是否启用壁纸轮播；关闭时保持每次刷新随机显示一张
-			enable: false,
+			enable: true,
 			// 轮播切换间隔（毫秒）
 			interval: 5000,
 			// 过渡效果: 'fade' 渐变 | 'zoom' 缩放 | 'slide' 滑动 | 'kenburns' 旋转木马

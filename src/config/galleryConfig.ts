@@ -6,14 +6,17 @@ export const galleryConfig: GalleryConfig = {
 	albums: [
 		{
 			id: "default",
-			title: "默认相册",
+			name: "默认相册",
 			// 照片路径（相对于站点根），使用 public 目录下的图片
 			photos: [
-				"/assets/images/site-logo.png",
-				"/assets/images/huoji-logo.png",
+				"/assets/images/1000005271.png",
+				"/assets/images/1000009235.png",
+				"/assets/images/1000005270.png",
+				"/assets/images/1000006719.png",
+				"/assets/images/1000006924.png",
 			],
 			// 可选：手动指定封面（默认使用第一张）
-			cover: "/assets/images/site-logo.png",
+			cover: "/assets/images/1000005271.png",
 		},
 	],
 

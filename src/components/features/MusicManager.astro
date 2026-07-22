@@ -1,4 +1,6 @@
 ---
+import fs from "node:fs";
+import path from "node:path";
 import { musicPlayerConfig } from "@/config/musicConfig";
 import I18nKey from "@/i18n/i18nKey";
 import { i18n } from "@/i18n/translation";
@@ -6,23 +8,49 @@ import { url } from "@/utils/url-utils";
 
 const config = musicPlayerConfig;
 
+const publicMusicDir = new URL("../../../public/assets/music", import.meta.url).pathname;
+
+function inferLocalLrcPath(songUrl: string) {
+	if (!songUrl) return undefined;
+	if (/^(https?:)?\/\//.test(songUrl)) return undefined;
+	const normalizedUrl = songUrl.replace(/^\//, "");
+	const ext = path.extname(normalizedUrl).toLowerCase();
+	if (![".mp3", ".wav", ".ogg", ".flac", ".m4a", ".aac"].includes(ext)) return undefined;
+	const relativePath = normalizedUrl.replace(/^assets\/music\//, "");
+	const baseName = path.basename(relativePath, ext);
+	const dirName = path.dirname(relativePath);
+
+	const sameDirLrc = path.join(publicMusicDir, dirName, baseName + ".lrc");
+	if (fs.existsSync(sameDirLrc)) {
+		return "/assets/music/" + (dirName === "." ? "" : dirName + "/") + baseName + ".lrc";
+	}
+
+	const lrcSubdir = path.join(publicMusicDir, "lrc", baseName + ".lrc");
+	if (fs.existsSync(lrcSubdir)) {
+		return "/assets/music/lrc/" + baseName + ".lrc";
+	}
+
+	return undefined;
+}
+
 const localPlaylist =
 	config.mode === "local" && config.local?.playlist
 		? config.local.playlist.map((song) => {
-				const isFullUrl = (path: string) => /^https?:\/\//.test(path);
-				return {
-					name: song.name,
-					artist: song.artist,
-					url: isFullUrl(song.url) ? song.url : url(song.url),
-					pic: song.cover
-						? isFullUrl(song.cover)
-							? song.cover
-							: url(song.cover)
-						: undefined,
-					lrc: song.lrc
-						? isFullUrl(song.lrc)
-							? song.lrc
-							: url(song.lrc)
+			const isFullUrl = (path: string) => /^https?:\/\//.test(path);
+			const lrcPath = song.lrc?.trim() ? song.lrc : inferLocalLrcPath(song.url);
+			return {
+				name: song.name,
+				artist: song.artist,
+				url: isFullUrl(song.url) ? song.url : url(song.url),
+				pic: song.cover
+					? isFullUrl(song.cover)
+						? song.cover
+						: url(song.cover)
+					: undefined,
+				lrc: lrcPath
+					? isFullUrl(lrcPath)
+						? lrcPath
+						: url(lrcPath)
 						: undefined,
 				};
 			})
@@ -185,8 +213,19 @@ const managerConfigStr = JSON.stringify({
         if (isLrcUrl) {
             emit('fm:lyrics', { lyrics: [], status: 'loading' });
             fetch(track.lrc)
-                .then(function (r) { return r.text(); })
+                .then(function (r) {
+                    if (!r.ok) {
+                        if (r.status === 404) {
+                            state.lyrics = [];
+                            emit('fm:lyrics', { lyrics: [], status: 'none' });
+                            return null;
+                        }
+                        throw new Error('HTTP ' + r.status);
+                    }
+                    return r.text();
+                })
                 .then(function (text) {
+                    if (text === null) return;
                     state.lyrics = parseLRC(text);
                     emit('fm:lyrics', { lyrics: state.lyrics, status: 'loaded' });
                 })

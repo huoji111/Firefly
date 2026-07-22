@@ -17,7 +17,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	// 播放模式：'list'=列表循环, 'one'=单曲循环, 'random'=随机播放
 	playMode: "list",
 
-	// 是否显启用歌词
+	// 是否启用歌词
 	showLyrics: true,
 
 	// Meting API 配置
